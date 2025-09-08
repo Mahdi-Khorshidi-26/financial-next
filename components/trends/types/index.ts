@@ -9,6 +9,5 @@ export type calcPercentageChangeType = (
   prevAmount: number
 ) => number;
 
-export type formatCurrencyType = (amount: number) => string;
 
 export type Category = "Income" | "Expense" | "Investment" | "Saving";

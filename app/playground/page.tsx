@@ -1,32 +1,113 @@
+import Button from "@/components/button";
+import PageHeader from "@/components/pageHeader";
+import TransactionItem from "@/components/transactionItem";
+import TransactionSummaryItem from "@/components/transactionSummaryItem";
+import Trends from "@/components/trends";
 import React from "react";
-import PageHeader from "@/components/pageHeader/page";
-import Trends from "@/components/trends/page";
 
 export default function Playground() {
   return (
     <main className="space-y-8">
-      <h1 className="text-4xl mt-8">Playground</h1>
-      <div>
-        <h2 className="mb-4 text-lg font-mono">ComponentName</h2>
+      <h1 className="text-4xl mt-8">Components Playground</h1>
+      <div className="p-8 bg-white dark:bg-gray-900 rounded-lg shadow-md">
         <hr className="mb-4 border-gray-200 dark:border-gray-800" />
-        <div>
-          <h2 className="mb-4 text-lg font-mono">PageHeader</h2>
+        <PlaygroundItemContainer title="Page Header Component">
+          <PageHeader />
+        </PlaygroundItemContainer>
+        <PlaygroundItemContainer title="Trends Component">
+          <Trends type="Income" amount={1000} prevAmount={500} />
+          <Trends type="Expense" amount={3000} prevAmount={500} />
+          <Trends type="Investment" amount={5000} prevAmount={500} />
+          <Trends type="Saving" amount={100} prevAmount={500} />
+        </PlaygroundItemContainer>
+        <PlaygroundItemContainer
+          title="Transaction Item Component"
+          childrenWrapperClassName="flex flex-col space-y-4"
+        >
+          <TransactionItem
+            type="Income"
+            description="Salary"
+            amount={2000}
+            category="House"
+          />
+          <TransactionItem
+            type="Expense"
+            category="Food"
+            description="Going out to eat"
+            amount={29}
+          />
+          <TransactionItem
+            type="Saving"
+            description="For children"
+            amount={500}
+            category="Work"
+          />
+          <TransactionItem
+            type="Investment"
+            description="In Microsoft"
+            amount={2000}
+            category="Cleaning"
+          />
+        </PlaygroundItemContainer>
+        <PlaygroundItemContainer
+          title="Transaction Summary Item"
+          childrenWrapperClassName="flex flex-col space-y-4"
+        >
+          <TransactionSummaryItem date="2025-4-6" amount={1500} />
           <hr className="mb-4 border-gray-200 dark:border-gray-800" />
-          <div>
-            <PageHeader />
-          </div>
-        </div>
-        <div>
-          <h2 className="mb-4 text-lg font-mono">Trend</h2>
-          <hr className="mb-4 border-gray-200 dark:border-gray-800" />
-          <div className="flex space-x-4">
-            <Trends type="Income" amount={1000} prevAmount={500} />
-            <Trends type="Expense" amount={3000} prevAmount={500} />
-            <Trends type="Investment" amount={5000} prevAmount={500} />
-            <Trends type="Saving" amount={100} prevAmount={500} />
-          </div>
-        </div>
+          <TransactionItem
+            type="Income"
+            description="Salary"
+            amount={2000}
+            category="House"
+          />
+          <TransactionItem
+            type="Expense"
+            category="Food"
+            description="Going out to eat"
+            amount={29}
+          />
+          <TransactionItem
+            type="Saving"
+            description="For children"
+            amount={500}
+            category="Work"
+          />
+          <TransactionItem
+            type="Investment"
+            description="In Microsoft"
+            amount={2000}
+            category="Cleaning"
+          />
+        </PlaygroundItemContainer>
+        <PlaygroundItemContainer title="Button Component">
+          <Button>Test</Button>
+        </PlaygroundItemContainer>
       </div>
     </main>
+  );
+}
+
+export function PlaygroundItemContainer({
+  title,
+  titleClassName,
+  childrenWrapperClassName,
+  containerClassName,
+  children,
+}: {
+  children: React.ReactNode;
+  title: string;
+  titleClassName?: string;
+  childrenWrapperClassName?: string;
+  containerClassName?: string;
+}) {
+  return (
+    <div className={`my-8 ${containerClassName}`}>
+      <h2 className={`mb-4 text-5xl font-mono ${titleClassName}`}>{title}</h2>
+      <hr className="mb-4 border-gray-200 dark:border-gray-800" />
+      <div className={`flex space-x-8 ${childrenWrapperClassName}`}>
+        {children}
+      </div>
+    </div>
   );
 }

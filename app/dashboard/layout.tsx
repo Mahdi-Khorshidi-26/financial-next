@@ -1,4 +1,4 @@
-import PageHeader from "@/components/pageHeader/page";
+import PageHeader from "@/components/pageHeader";
 
 export default function DashboardLayout({
   children,
@@ -7,7 +7,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="space-y-8">
-      <PageHeader className="my-8"/>
+      <PageHeader className="my-8" />
       <div>{children}</div>
     </div>
   );
