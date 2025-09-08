@@ -1,4 +1,6 @@
 import Button from "@/components/button";
+import FormInput from "@/components/formInput";
+import FormSelect from "@/components/formSelect";
 import PageHeader from "@/components/pageHeader";
 import TransactionItem from "@/components/transactionItem";
 import TransactionSummaryItem from "@/components/transactionSummaryItem";
@@ -81,7 +83,37 @@ export default function Playground() {
           />
         </PlaygroundItemContainer>
         <PlaygroundItemContainer title="Button Component">
-          <Button>Test</Button>
+          <Button variant="default" size="base">
+            Test
+          </Button>
+          <Button variant="outline" size="lg">
+            Test
+          </Button>
+          <Button variant="ghost" size="sm">
+            Test
+          </Button>
+          <Button variant="ghost" size="xs">
+            Test
+          </Button>
+        </PlaygroundItemContainer>
+        <PlaygroundItemContainer
+          title="Form Components"
+          childrenWrapperClassName="grid grid-cols-1 md:grid-cols-2 gap-8"
+        >
+          <FormInput placeholder="Test input" />
+          <FormInput type="password" placeholder="Test password" />
+          <FormInput type="checkbox" />
+          <FormInput type="email" placeholder="Test email" />
+          <FormInput type="number" placeholder="Test number" />
+          <FormInput type="date" placeholder="Test date" />
+          <FormInput type="tel" placeholder="Test tel" />
+          <FormSelect
+            options={[
+              { value: "1", label: "Option 1" },
+              { value: "2", label: "Option 2" },
+              { value: "3", label: "Option 3" },
+            ]}
+          />
         </PlaygroundItemContainer>
       </div>
     </main>
