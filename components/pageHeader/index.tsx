@@ -1,4 +1,5 @@
 import Link from "next/link";
+import DarkModeToggle from "../darkModeToggle";
 
 export default function PageHeader({ className }: { className?: string }) {
   return (
@@ -10,7 +11,7 @@ export default function PageHeader({ className }: { className?: string }) {
         Finance App
       </Link>
       <div className="flex items-center space-x-4">
-        <div>Mode Toggle</div>
+        <DarkModeToggle />
         <div>User Dropdown</div>
       </div>
     </header>
