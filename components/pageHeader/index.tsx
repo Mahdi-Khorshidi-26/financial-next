@@ -6,6 +6,9 @@ import { DarkModeToggler, useDarkMode } from "dark-mode-toggler";
 export default function PageHeader({ className }: { className?: string }) {
   const { theme, resolvedTheme, toggleTheme, setTheme, mounted } =
     useDarkMode();
+  const toggleDarkLight = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
 
   return (
     <header className={`flex justify-between items-center ${className}`}>
@@ -19,8 +22,13 @@ export default function PageHeader({ className }: { className?: string }) {
         <DarkModeToggler
           theme={theme}
           resolvedTheme={resolvedTheme}
-          toggleTheme={toggleTheme}
+          toggleTheme={toggleDarkLight}
           mounted={mounted}
+          icons={{
+            dark: <span>🌙</span>,
+            light: <span>☀️</span>,
+            // system: null, // will fallback to default if not provided
+          }}
         />
         <div>User Dropdown</div>
       </div>
