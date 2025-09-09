@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "json-server":"json-server --watch db.json --port 3100"
+    "json-server": "json-server --watch db.json --port 3100"
   },
   "dependencies": {
     "lucide-react": "^0.542.0",

@@ -2,6 +2,8 @@ import Button from "@/components/button";
 import FormInput from "@/components/formInput";
 import FormSelect from "@/components/formSelect";
 import PageHeader from "@/components/pageHeader";
+import Separator from "@/components/seperator";
+import Skeleton from "@/components/skeleton";
 import TransactionItem from "@/components/transactionItem";
 import TransactionSummaryItem from "@/components/transactionSummaryItem";
 import Trends from "@/components/trends";
@@ -12,7 +14,7 @@ export default function Playground() {
     <main className="space-y-8">
       <h1 className="text-4xl mt-8">Components Playground</h1>
       <div className="p-8 bg-white dark:bg-gray-900 rounded-lg shadow-md">
-        <hr className="mb-4 border-gray-200 dark:border-gray-800" />
+        <Separator />
         <PlaygroundItemContainer title="Page Header Component">
           <PageHeader />
         </PlaygroundItemContainer>
@@ -56,7 +58,8 @@ export default function Playground() {
           childrenWrapperClassName="flex flex-col space-y-4"
         >
           <TransactionSummaryItem date="2025-4-6" amount={1500} />
-          <hr className="mb-4 border-gray-200 dark:border-gray-800" />
+          <Separator />
+
           <TransactionItem
             type="Income"
             description="Salary"
@@ -115,6 +118,22 @@ export default function Playground() {
             ]}
           />
         </PlaygroundItemContainer>
+        <PlaygroundItemContainer
+          title="Skeleton Component"
+          childrenWrapperClassName="space-y-4"
+        >
+          <Skeleton className="h-4" />
+          <Skeleton className="h-6" />
+          <Skeleton className="h-8" />
+          <Skeleton className="h-10" />
+          <Skeleton className="w-full" />
+        </PlaygroundItemContainer>
+        <PlaygroundItemContainer
+          title="Skeleton Component Full Width"
+          childrenWrapperClassName="space-y-4"
+        >
+          <Skeleton className="w-full" />
+        </PlaygroundItemContainer>
       </div>
     </main>
   );
@@ -136,7 +155,7 @@ export function PlaygroundItemContainer({
   return (
     <div className={`my-8 ${containerClassName}`}>
       <h2 className={`mb-4 text-5xl font-mono ${titleClassName}`}>{title}</h2>
-      <hr className="mb-4 border-gray-200 dark:border-gray-800" />
+      <Separator />
       <div className={`flex space-x-8 ${childrenWrapperClassName}`}>
         {children}
       </div>
