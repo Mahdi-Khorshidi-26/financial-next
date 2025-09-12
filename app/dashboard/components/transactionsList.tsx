@@ -5,8 +5,7 @@ import { groupAndSumTransactionsByDate } from "@/utils";
 import { Suspense } from "react";
 import { TransactionSummaryItemFallback } from "./transactionListFallback";
 import { createClient } from "@/utils/supabase/client";
-import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
+
 
 export type TransactionsType = {
   id: number;
@@ -45,11 +44,3 @@ export default async function TransactionList() {
   );
 }
 
-export async function fetchFromSupabase(table: string, selectQuery = "*") {
-  const cookieStore = cookies();
-  const supabase = createClient();
-  const { data, error } = await supabase.from(table).select(selectQuery);
-  if (error) throw error;
-  revalidatePath("/dashboard");
-  return data;
-}
