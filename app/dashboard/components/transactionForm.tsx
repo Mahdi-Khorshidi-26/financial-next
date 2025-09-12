@@ -5,6 +5,7 @@ import { useForm, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { transactionSchema } from "@/lib/validation";
 import { addTransaction } from "@/lib/actions";
+import { useState } from "react";
 
 export default function TransactionForm() {
   const {
@@ -16,10 +17,17 @@ export default function TransactionForm() {
     mode: "onTouched",
     resolver: zodResolver(transactionSchema),
   });
+  const [serverError, setServerError] = useState<string | null>(null);
 
-  const onSubmit = (data: FieldValues) => {
-    addTransaction(data);
-    reset();
+  const onSubmit = async (data: FieldValues) => {
+    try {
+      await addTransaction(data);
+      reset();
+    } catch (error) {
+      if (error instanceof Error) {
+        setServerError(error.message);
+      }
+    }
   };
 
   return (
@@ -44,7 +52,9 @@ export default function TransactionForm() {
           </select>
           {errors.type && (
             <span className="text-xs text-red-600 dark:text-red-400 mt-1">
-              {errors.type.message}
+              {typeof errors.type?.message === "string"
+                ? errors.type.message
+                : null}
             </span>
           )}
         </div>
@@ -65,7 +75,9 @@ export default function TransactionForm() {
           </select>
           {errors.category && (
             <span className="text-xs text-red-600 dark:text-red-400 mt-1">
-              {errors.category.message}
+              {typeof errors.category?.message === "string"
+                ? errors.category.message
+                : null}
             </span>
           )}
         </div>
@@ -81,7 +93,9 @@ export default function TransactionForm() {
           />
           {errors.created_at && (
             <span className="text-xs text-red-600 dark:text-red-400 mt-1">
-              {errors.created_at.message}
+              {typeof errors.created_at?.message === "string"
+                ? errors.created_at.message
+                : null}
             </span>
           )}
         </div>
@@ -97,7 +111,9 @@ export default function TransactionForm() {
           />
           {errors.amount && (
             <span className="text-xs text-red-600 dark:text-red-400 mt-1">
-              {errors.amount.message}
+              {typeof errors.amount?.message === "string"
+                ? errors.amount.message
+                : null}
             </span>
           )}
         </div>
@@ -113,7 +129,9 @@ export default function TransactionForm() {
           />
           {errors.description && (
             <span className="text-xs text-red-600 dark:text-red-400 mt-1">
-              {errors.description.message}
+              {typeof errors.description?.message === "string"
+                ? errors.description.message
+                : null}
             </span>
           )}
         </div>
@@ -127,7 +145,8 @@ export default function TransactionForm() {
           className="min-h-[24px] text-sm text-red-600 dark:text-red-400"
           role="alert"
         >
-          {Object.keys(errors).length > 0 && "Please fix the errors above."}
+          {/* {Object.keys(errors).length > 0 && "Please fix the errors above."} */}
+          {serverError && serverError}
         </div>
       </div>
     </form>

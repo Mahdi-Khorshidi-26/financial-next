@@ -11,7 +11,7 @@ export async function addTransaction(data: FieldValues) {
     .from("transactions")
     .insert(data);
   if (error) {
-    console.log("Error adding transaction:", error.message);
+    throw new Error("Failed to add transaction");
   }
   revalidatePath("/dashboard");
   return redirect("/dashboard");
