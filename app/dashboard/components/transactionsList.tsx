@@ -4,6 +4,9 @@ import TransactionSummaryItem from "@/components/transactionSummaryItem";
 import { groupAndSumTransactionsByDate } from "@/utils";
 import { Suspense } from "react";
 import { TransactionSummaryItemFallback } from "./transactionListFallback";
+import { createClient } from "@/utils/supabase/client";
+import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 export type TransactionsType = {
   id: number;
@@ -14,18 +17,12 @@ export type TransactionsType = {
   created_at: string;
 };
 
-
 export default async function TransactionList() {
-  const response = await fetch("http://localhost:3100/transactions", {
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch transactions: ${response.status}`);
-  }
-
-  const transactions = await response.json();
-  const grouped = groupAndSumTransactionsByDate(transactions);
+  const supabase = createClient();
+  const { data: transactions } = await supabase
+    .from("transactions")
+    .select("*");
+  const grouped = groupAndSumTransactionsByDate(transactions ?? []);
 
   return (
     <div className="space-y-8">
@@ -46,4 +43,13 @@ export default async function TransactionList() {
       ))}
     </div>
   );
+}
+
+export async function fetchFromSupabase(table: string, selectQuery = "*") {
+  const cookieStore = cookies();
+  const supabase = createClient();
+  const { data, error } = await supabase.from(table).select(selectQuery);
+  if (error) throw error;
+  revalidatePath("/dashboard");
+  return data;
 }

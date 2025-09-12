@@ -1,22 +1,19 @@
-'use client';
+"use client";
 import Button from "@/components/button";
 import { categories, types } from "@/lib/consts";
 import { useForm, FieldValues } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { transactionSchema } from "@/lib/validation";
 
 export default function TransactionForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm({
-    defaultValues: {
-      type: types[0] || "",
-      category: categories[0] || "",
-      date: "",
-      amount: "",
-      description: "",
-    },
+    mode: "onTouched",
+    resolver: zodResolver(transactionSchema),
   });
 
   const onSubmit = (data: FieldValues) => {
@@ -79,12 +76,12 @@ export default function TransactionForm() {
           </label>
           <input
             type="date"
-            {...register("date")}
+            {...register("created_at")}
             className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-150 px-3 py-2 outline-none"
           />
-          {errors.date && (
+          {errors.created_at && (
             <span className="text-xs text-red-600 dark:text-red-400 mt-1">
-              {errors.date.message}
+              {errors.created_at.message}
             </span>
           )}
         </div>
@@ -95,7 +92,6 @@ export default function TransactionForm() {
           </label>
           <input
             type="number"
-            step="0.01"
             {...register("amount")}
             className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-150 px-3 py-2 outline-none"
           />
@@ -124,7 +120,9 @@ export default function TransactionForm() {
       </div>
 
       <div className="flex items-center gap-4">
-        <Button type="submit">Save</Button>
+        <Button disabled={isSubmitting} type="submit">
+          {isSubmitting ? "Saving..." : "Save"}
+        </Button>
         <div
           className="min-h-[24px] text-sm text-red-600 dark:text-red-400"
           role="alert"
