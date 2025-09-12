@@ -53,24 +53,33 @@ function getRandomDescription(type, category) {
   );
 }
 
-export function generateRandomTransactions(count = 30) {
+export function generateRandomTransactions(count = 30, startDate = new Date()) {
   const transactions = [];
-  for (let i = 0; i < count; i++) {
-    const type = getRandomElement(types);
-    const category = getRandomElement(categories);
-    transactions.push({
-      description: getRandomDescription(type, category),
-      amount: getRandomAmount(type),
-      type: type.toLowerCase(),
-      category,
-    });
+  let currentDate = new Date(startDate);
+  let i = 0;
+  while (i < count) {
+    // Random group size between 2 and 5
+    const groupSize = Math.min(count - i, Math.floor(Math.random() * 4) + 2);
+    for (let j = 0; j < groupSize && i < count; j++, i++) {
+      const type = getRandomElement(types);
+      const category = getRandomElement(categories);
+      transactions.push({
+        description: getRandomDescription(type, category),
+        amount: getRandomAmount(type),
+        type: type.toLowerCase(),
+        category,
+        created_at: new Date(currentDate).toISOString(),
+      });
+    }
+    // Move to next day
+    currentDate.setDate(currentDate.getDate() + 1);
   }
   return transactions;
 }
 
 async function seed() {
-  // Insert fixed transactions
-  const fixedTransactions = [
+  // Add date to fixed transactions, grouping every 2-5 items per date
+  const fixedTransactionsRaw = [
     {
       description: "Salary",
       amount: 5000,
@@ -127,9 +136,29 @@ async function seed() {
       category: "Housing",
     },
   ];
+  let fixedTransactions = [];
+  let fixedDate = new Date();
+  let idx = 0;
+  while (idx < fixedTransactionsRaw.length) {
+    const groupSize = Math.min(
+      fixedTransactionsRaw.length - idx,
+      Math.floor(Math.random() * 4) + 2
+    );
+    for (
+      let j = 0;
+      j < groupSize && idx < fixedTransactionsRaw.length;
+      j++, idx++
+    ) {
+      fixedTransactions.push({
+        ...fixedTransactionsRaw[idx],
+        created_at: new Date(fixedDate).toISOString(),
+      });
+    }
+    fixedDate.setDate(fixedDate.getDate() + 1);
+  }
 
-  // Generate random transactions
-  const randomTransactions = generateRandomTransactions(20);
+  // Generate random transactions, starting after the last fixed date
+  const randomTransactions = generateRandomTransactions(20, fixedDate);
 
   // Insert both fixed and random transactions
   const { data, error } = await supabase

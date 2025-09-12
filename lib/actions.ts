@@ -1,23 +1,18 @@
 "use server";
-
+import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { FieldValues } from "react-hook-form";
 
-export function addTransaction(data: FormData) {
-  const type = data.get("type") as string;
-  const category = data.get("category") as string;
-  const amount = data.get("amount") as string;
-  const description = data.get("description") as string;
-  const created_at = data.get("created_at") as string;
-
-  // console.log({
-  //   type,
-  //   category,
-  //   amount,
-  //   description,
-  //   created_at,
-  // });
-
+export async function addTransaction(data: FieldValues) {
+  const cookieStore = cookies();
+  const { error } = await createClient(cookieStore)
+    .from("transactions")
+    .insert(data);
+  if (error) {
+    console.log("Error adding transaction:", error.message);
+  }
   revalidatePath("/dashboard");
-  // Here you can add logic to save the transaction to your database
-  return true;
+  return redirect("/dashboard");
 }

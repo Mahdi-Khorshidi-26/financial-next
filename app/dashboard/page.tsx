@@ -16,7 +16,7 @@ export default async function Dashboard() {
         <Trend type="investment" />
       </section> */}
 
-      <section className="flex justify-between items-center mb-8">
+      <section className="flex justify-between items-center mb-8 sticky top-0 z-10 ">
         <h2 className="text-2xl">Transactions</h2>
         <Link
           href="/dashboard/transaction/add"

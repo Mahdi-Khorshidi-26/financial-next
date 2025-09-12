@@ -4,6 +4,7 @@ import { categories, types } from "@/lib/consts";
 import { useForm, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { transactionSchema } from "@/lib/validation";
+import { addTransaction } from "@/lib/actions";
 
 export default function TransactionForm() {
   const {
@@ -17,8 +18,7 @@ export default function TransactionForm() {
   });
 
   const onSubmit = (data: FieldValues) => {
-    console.log(data);
-    // handle form submission
+    addTransaction(data);
     reset();
   };
 
