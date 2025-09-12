@@ -14,6 +14,7 @@ export type TransactionsType = {
   created_at: string;
 };
 
+
 export default async function TransactionList() {
   const response = await fetch("http://localhost:3100/transactions", {
     cache: "no-store",
