@@ -6,7 +6,6 @@ import { Suspense } from "react";
 import { TransactionSummaryItemFallback } from "./transactionListFallback";
 import { createClient } from "@/utils/supabase/client";
 
-
 export type TransactionsType = {
   id: number;
   amount: number;
@@ -20,7 +19,8 @@ export default async function TransactionList() {
   const supabase = createClient();
   const { data: transactions } = await supabase
     .from("transactions")
-    .select("*");
+    .select("*")
+    .order("created_at", { ascending: false });
   const grouped = groupAndSumTransactionsByDate(transactions ?? []);
 
   return (
@@ -43,4 +43,3 @@ export default async function TransactionList() {
     </div>
   );
 }
-
