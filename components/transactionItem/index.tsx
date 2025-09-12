@@ -10,8 +10,16 @@ export default function TransactionItem({
 }: TransactionItemProps) {
   const formattedAmount = useFormatCurrency(amount);
 
-  const IconComponent = typesMap[type].icon;
-  const colors = typesMap[type].colors;
+  // Normalize type to match typesMap keys (capitalize first letter)
+  const normalizedType =
+    type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+  const typeConfig = typesMap[normalizedType];
+
+  // Fallback icon/colors if type is not found
+  const IconComponent = typeConfig
+    ? typeConfig.icon
+    : () => <span className="w-4 h-4 mr-2" />;
+  const colors = typeConfig ? typeConfig.colors : "text-gray-400";
 
   return (
     <div className="w-full flex items-center">
