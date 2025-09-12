@@ -13,7 +13,7 @@
     "@hookform/resolvers": "^5.2.1",
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.57.4",
-    "dark-mode-toggler": "^1.0.9",
+    "dark-mode-toggler": "^1.1.0",
     "lucide-react": "^0.542.0",
     "next": "15.5.2",
     "react": "19.1.0",
