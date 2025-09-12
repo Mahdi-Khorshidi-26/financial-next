@@ -7,7 +7,13 @@ import Skeleton from "@/components/skeleton";
 import TransactionItem from "@/components/transactionItem";
 import TransactionSummaryItem from "@/components/transactionSummaryItem";
 import Trends from "@/components/trends";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "playground",
+  description: "Components playground",
+};
 
 export default function Playground() {
   return (

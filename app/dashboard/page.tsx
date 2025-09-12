@@ -4,6 +4,9 @@ import TransactionListFallback from "./components/transactionListFallback";
 // import Trend from "./components/trends";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
+import Link from "next/link";
+import { PlusCircle } from "lucide-react";
+import { sizes, variants } from "@/lib/variants";
 
 export default async function Dashboard() {
   const cookieStore = cookies();
@@ -19,6 +22,18 @@ export default async function Dashboard() {
         <Trend type="saving" />
         <Trend type="investment" />
       </section> */}
+
+      <section className="flex justify-between items-center mb-8">
+        <h2 className="text-2xl">Transactions</h2>
+        <Link
+          href="/dashboard/transaction/add"
+          className={`flex items-center space-x-1 ${variants["default"]} ${sizes["sm"]}`}
+        >
+          <PlusCircle className="w-4 h-4" />
+          <div>Add</div>
+        </Link>
+      </section>
+
       <Suspense fallback={<TransactionListFallback />}>
         <TransactionList />
       </Suspense>
