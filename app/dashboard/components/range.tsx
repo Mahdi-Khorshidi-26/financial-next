@@ -17,7 +17,7 @@ export default function Range() {
   return (
     <select
       className="border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-2 text-sm bg-white dark:bg-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-150 pr-10"
-      defaultValue={range}
+      value={range}
       aria-label="Filter by time"
       onChange={handleChange}
     >

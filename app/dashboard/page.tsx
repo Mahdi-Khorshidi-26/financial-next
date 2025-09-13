@@ -13,8 +13,7 @@ export default async function Dashboard({
 }: {
   searchParams: { range: string };
 }) {
-  const resolvedSearchParams = await searchParams;
-  const range = resolvedSearchParams?.range || "last30days";
+  const range = searchParams?.range || "last30days";
   return (
     <main className="space-y-8">
       <section className="flex justify-between items-center mb-8 top-0 z-10 ">
