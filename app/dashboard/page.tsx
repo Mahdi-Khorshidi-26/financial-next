@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import TransactionList from "./components/transactionsList";
 import TransactionListFallback from "./components/transactionListFallback";
 import Link from "next/link";
 import { PlusCircle } from "lucide-react";
@@ -7,6 +6,7 @@ import { sizes, variants } from "@/lib/variants";
 import Trend from "./components/trends";
 import { ErrorBoundary } from "react-error-boundary";
 import Range from "./components/range";
+import TransactionListWrapper from "./components/transactionListWrapper";
 
 export default async function Dashboard({
   searchParams,
@@ -48,7 +48,7 @@ export default async function Dashboard({
       </section>
 
       <Suspense fallback={<TransactionListFallback />}>
-        <TransactionList range={range} limit={1000} offset={0} />
+        <TransactionListWrapper range={range} />
       </Suspense>
     </main>
   );

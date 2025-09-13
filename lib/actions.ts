@@ -22,3 +22,22 @@ export async function addTransaction(data: FieldValues) {
   revalidatePath("/dashboard");
   return redirect("/dashboard");
 }
+
+export async function fetchTransactions(
+  range: string,
+  limit: number = 10,
+  offset: number = 0
+) {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const { data: transactions, error } = await supabase.rpc(
+    "fetch_transactions",
+    {
+      limit_arg: limit ?? 20,
+      offset_arg: offset ?? 0,
+      range_arg: range ?? "last30days",
+    }
+  );
+  if (error) console.error(error);
+  return transactions;
+}
