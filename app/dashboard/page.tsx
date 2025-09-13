@@ -10,7 +10,7 @@ import { ErrorBoundary } from "react-error-boundary";
 export default async function Dashboard() {
   return (
     <main className="space-y-8">
-      {/* <section className="mb-8 grid grid-cols-2 lg:grid-cols-4 gap-8">
+      <section className="mb-8 grid grid-cols-2 lg:grid-cols-4 gap-8">
         <ErrorBoundary fallback={<p>Error loading trend data</p>}>
           <Trend type="income" />
         </ErrorBoundary>
@@ -23,8 +23,7 @@ export default async function Dashboard() {
         <ErrorBoundary fallback={<p>Error loading trend data</p>}>
           <Trend type="investment" />
         </ErrorBoundary>
-      </section> */}
-
+      </section>
       <section className="flex justify-between items-center mb-8 sticky top-0 z-10 ">
         <h2 className="text-2xl">Transactions</h2>
         <Link
