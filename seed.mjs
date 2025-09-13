@@ -77,6 +77,12 @@ export function generateRandomTransactions(count = 30, startDate = new Date()) {
   return transactions;
 }
 
+function addMonths(date, months) {
+  const d = new Date(date);
+  d.setMonth(d.getMonth() + months);
+  return d;
+}
+
 async function seed() {
   // Add date to fixed transactions, grouping every 2-5 items per date
   const fixedTransactionsRaw = [
@@ -138,32 +144,74 @@ async function seed() {
   ];
   let fixedTransactions = [];
   let fixedDate = new Date();
-  let idx = 0;
-  while (idx < fixedTransactionsRaw.length) {
-    const groupSize = Math.min(
-      fixedTransactionsRaw.length - idx,
-      Math.floor(Math.random() * 4) + 2
-    );
-    for (
-      let j = 0;
-      j < groupSize && idx < fixedTransactionsRaw.length;
-      j++, idx++
-    ) {
-      fixedTransactions.push({
-        ...fixedTransactionsRaw[idx],
-        created_at: new Date(fixedDate).toISOString(),
-      });
-    }
-    fixedDate.setDate(fixedDate.getDate() + 1);
+  fixedDate.setHours(12, 0, 0, 0); // normalize time
+
+  // 1. Add transactions for last 24 hours
+  const last24h = [
+    { ...fixedTransactionsRaw[0], created_at: new Date().toISOString() },
+    {
+      ...fixedTransactionsRaw[1],
+      created_at: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
+    },
+  ];
+
+  // 2. Add transactions for last 7 days
+  const last7days = [];
+  for (let i = 2; i < 5; i++) {
+    last7days.push({
+      ...fixedTransactionsRaw[i],
+      created_at: new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString(),
+    });
   }
 
-  // Generate random transactions, starting after the last fixed date
-  const randomTransactions = generateRandomTransactions(20, fixedDate);
+  // 3. Add transactions for last 30 days
+  const last30days = [];
+  for (let i = 5; i < 7; i++) {
+    last30days.push({
+      ...fixedTransactionsRaw[i],
+      created_at: new Date(
+        Date.now() - (i + 5) * 24 * 60 * 60 * 1000
+      ).toISOString(),
+    });
+  }
 
-  // Insert both fixed and random transactions
+  // 4. Add transactions for last 12 months (one per month)
+  const last12months = [];
+  for (let m = 1; m <= 12; m++) {
+    last12months.push({
+      ...getRandomElement(fixedTransactionsRaw),
+      created_at: addMonths(new Date(), -m).toISOString(),
+    });
+  }
+
+  // 5. Add a transaction for "lifetime" (older than 12 months)
+  const lifetime = [
+    {
+      ...getRandomElement(fixedTransactionsRaw),
+      created_at: addMonths(new Date(), -15).toISOString(),
+    },
+  ];
+
+  // Generate random transactions for variety
+  const randomTransactions = generateRandomTransactions(
+    20,
+    addMonths(new Date(), -2)
+  );
+
+  // Combine all
+  const allTransactions = [
+    ...last24h,
+    ...last7days,
+    ...last30days,
+    ...last12months,
+    ...lifetime,
+    ...randomTransactions,
+  ];
+
+  // Insert into Supabase
   const { data, error } = await supabase
     .from("transactions")
-    .insert([...fixedTransactions, ...randomTransactions]);
+    .insert(allTransactions);
 
   if (error) {
     console.error("Error seeding data:", error);
