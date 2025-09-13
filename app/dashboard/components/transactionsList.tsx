@@ -15,12 +15,31 @@ export type TransactionsType = {
   created_at: string;
 };
 
-export default async function TransactionList() {
+export default async function TransactionList({
+  limit,
+  offset,
+  range,
+}: {
+  limit?: number;
+  offset?: number;
+  range?: string;
+}) {
   const supabase = createClient();
-  const { data: transactions } = await supabase
-    .from("transactions")
-    .select("*")
-    .order("created_at", { ascending: false });
+  // const { data: transactions } = await supabase
+  //   .from("transactions")
+  //   .select("*")
+  //   .order("created_at", { ascending: false });
+
+  const { data: transactions, error } = await supabase.rpc(
+    "fetch_transactions",
+    {
+      limit_arg: limit ?? 20,
+      offset_arg: offset ?? 0,
+      range_arg: range ?? "last30days",
+    }
+  );
+  if (error) console.error(error);
+
   const grouped = groupAndSumTransactionsByDate(transactions ?? []);
 
   return (

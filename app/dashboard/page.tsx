@@ -48,7 +48,7 @@ export default async function Dashboard({
       </section>
 
       <Suspense fallback={<TransactionListFallback />}>
-        <TransactionList />
+        <TransactionList range={range} limit={1000} offset={0} />
       </Suspense>
     </main>
   );
