@@ -3,6 +3,8 @@ export type TransactionItemProps = {
   category: string;
   description: string;
   amount: number;
+  id?: number;
+  onRemoved?: () => void;
 };
 
 export type typesMapType = {

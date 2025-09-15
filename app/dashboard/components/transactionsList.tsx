@@ -47,6 +47,10 @@ export default function TransactionList({
     }
   };
 
+  const handleRemoved = (id: number) => {
+    setTransactions((prev) => [...prev].filter((t) => t.id !== id));
+  };
+
   return (
     <div className="space-y-8">
       {Object.entries(grouped).map(([date, { transactions, amount }]) => (
@@ -58,7 +62,10 @@ export default function TransactionList({
           <section className="space-y-4">
             {transactions.map((transaction) => (
               <div key={transaction.id}>
-                <TransactionItem {...transaction} />
+                <TransactionItem
+                  {...transaction}
+                  onRemoved={() => handleRemoved(transaction.id)}
+                />
               </div>
             ))}
           </section>

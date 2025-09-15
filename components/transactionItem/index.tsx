@@ -1,12 +1,15 @@
 import { useFormatCurrency } from "@/hooks/useFormatCurrency";
 import { TransactionItemProps } from "./types";
 import { typesMap } from "./utils";
+import TransactionRemoveButton from "@/app/dashboard/components/transactionRemoveButton";
 
 export default function TransactionItem({
   type,
   category,
   description,
   amount,
+  id,
+  onRemoved,
 }: TransactionItemProps) {
   const formattedAmount = useFormatCurrency(amount);
 
@@ -37,7 +40,9 @@ export default function TransactionItem({
       </div>
 
       <div className="min-w-[70px] text-right">{formattedAmount}</div>
-      <div className="min-w-[50px] flex justify-end">...</div>
+      <div className="min-w-[50px] flex justify-end">
+        <TransactionRemoveButton id={id} onRemoved={onRemoved} />
+      </div>
     </div>
   );
 }

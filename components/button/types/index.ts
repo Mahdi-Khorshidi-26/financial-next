@@ -3,5 +3,5 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: sizeTypes;
 };
 
-export type variantTypes = "default" | "outline" | "ghost";
+export type variantTypes = "default" | "outline" | "ghost" | "danger";
 export type sizeTypes = "base" | "xs" | "sm" | "lg";

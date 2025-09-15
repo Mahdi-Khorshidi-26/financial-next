@@ -41,3 +41,17 @@ export async function fetchTransactions(
   if (error) console.error(error);
   return transactions;
 }
+
+export async function deleteTransaction(id: number) {
+  const cookieStore = cookies();
+  const { error } = await createClient(cookieStore)
+    .from("transactions")
+    .delete()
+    .eq("id", id);
+  if (error) {
+    throw new Error("Failed to delete transaction");
+  }
+  revalidatePath("/dashboard");
+  return redirect("/dashboard");
+}
+ 
