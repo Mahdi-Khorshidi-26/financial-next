@@ -26,7 +26,6 @@ export default function TransactionList({
   range: string;
 }) {
   const [transactions, setTransactions] = useState(initialTransactions);
-  const [offset, setOffset] = useState(initialTransactions.length);
   const grouped = groupAndSumTransactionsByDate(transactions ?? []);
   const [buttonHidden, setButtonHidden] = useState(
     initialTransactions.length === 0
@@ -35,11 +34,10 @@ export default function TransactionList({
   const handleLoadMore = async () => {
     setLoading(true);
     try {
-      const nextTransactions = await fetchTransactions(range, offset, 10);
+      const nextTransactions = await fetchTransactions(range, transactions.length, 10);
       if (nextTransactions.length === 0) {
         setButtonHidden(true);
       }
-      setOffset((prev) => prev + 10);
       setTransactions((prev) => [...prev, ...nextTransactions]);
     } catch {
     } finally {
