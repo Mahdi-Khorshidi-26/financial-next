@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { transactionSchema } from "@/lib/validation";
 import { addTransaction, updateTransaction } from "@/lib/actions";
 import { useState } from "react";
-import { TransactionItemProps } from "@/components/transactionItem/types";
+import { capitalizeFirst } from "@/utils";
 
 export default function TransactionForm({
   initialData,
@@ -23,6 +23,13 @@ export default function TransactionForm({
   } = useForm({
     mode: "onTouched",
     resolver: zodResolver(transactionSchema),
+    defaultValues: {
+      type: capitalizeFirst(initialData?.type || "Expense"),
+      category: capitalizeFirst(initialData?.category || ""),
+      amount: initialData?.amount || "",
+      description: initialData?.description || "",
+      created_at: initialData ? initialData.created_at.split("T")[0] : "",
+    },
   });
   const [serverError, setServerError] = useState<string | null>(null);
   const type = watch("type");

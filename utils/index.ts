@@ -27,7 +27,9 @@ export const setCookie = (name: string, value: string, days: number) => {
   }`;
 };
 
-export const groupAndSumTransactionsByDate = (transactions: TransactionsType[]) => {
+export const groupAndSumTransactionsByDate = (
+  transactions: TransactionsType[]
+) => {
   const grouped: Record<
     string,
     { transactions: TransactionsType[]; amount: number }
@@ -58,3 +60,7 @@ export const groupAndSumTransactionsByDate = (transactions: TransactionsType[]) 
 
   return grouped;
 };
+
+export function capitalizeFirst(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}

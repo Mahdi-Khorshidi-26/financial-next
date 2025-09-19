@@ -7,5 +7,10 @@ export const metadata: Metadata = {
 };
 
 export default function AddTransactionPage() {
-  return <TransactionForm />;
+  return (
+    <>
+      <h1 className="text-2xl font-bold mb-5">Add Transaction</h1>
+      <TransactionForm />
+    </>
+  );
 }
