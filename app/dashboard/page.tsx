@@ -13,7 +13,8 @@ export default async function Dashboard({
 }: {
   searchParams: { range: string };
 }) {
-  const range = searchParams?.range || "last30days";
+  const { range } = await searchParams;
+  const selectedRange = range || "last30days";
   return (
     <main className="space-y-8">
       <section className="flex justify-between items-center mb-8 top-0 z-10 ">
@@ -24,16 +25,16 @@ export default async function Dashboard({
       </section>
       <section className="mb-8 grid grid-cols-2 lg:grid-cols-4 gap-8">
         <ErrorBoundary fallback={<p>Error loading trend data</p>}>
-          <Trend type="income" range={range} />
+          <Trend type="income" range={selectedRange} />
         </ErrorBoundary>
         <ErrorBoundary fallback={<p>Error loading trend data</p>}>
-          <Trend type="expense" range={range} />
+          <Trend type="expense" range={selectedRange} />
         </ErrorBoundary>
         <ErrorBoundary fallback={<p>Error loading trend data</p>}>
-          <Trend type="saving" range={range} />
+          <Trend type="saving" range={selectedRange} />
         </ErrorBoundary>
         <ErrorBoundary fallback={<p>Error loading trend data</p>}>
-          <Trend type="investment" range={range} />
+          <Trend type="investment" range={selectedRange} />
         </ErrorBoundary>
       </section>
       <section className="flex justify-between items-center mb-8 sticky top-0 z-10 ">
@@ -48,7 +49,7 @@ export default async function Dashboard({
       </section>
 
       <Suspense fallback={<TransactionListFallback />}>
-        <TransactionListWrapper range={range} />
+        <TransactionListWrapper range={selectedRange} />
       </Suspense>
     </main>
   );

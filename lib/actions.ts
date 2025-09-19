@@ -52,6 +52,4 @@ export async function deleteTransaction(id: number) {
     throw new Error("Failed to delete transaction");
   }
   revalidatePath("/dashboard");
-  return redirect("/dashboard");
 }
- 

@@ -15,11 +15,7 @@ export default function TransactionRemoveButton({
   const [loading, setLoading] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const handleClick = async () => {
-    if (!confirmed) {
-      setConfirmed(true);
-      return;
-    }
-
+    setConfirmed((perv) => !perv);
     try {
       setLoading(true);
       await deleteTransaction(id!);
@@ -33,7 +29,7 @@ export default function TransactionRemoveButton({
     <Button
       variant={!confirmed ? "ghost" : "danger"}
       size="xs"
-      className="hover:text-red-500 hover:bg-red-500"
+      className="hover:text-red-500 hover:bg-red-500 "
       onClick={handleClick}
       aria-disabled={loading}
     >
