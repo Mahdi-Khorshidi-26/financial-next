@@ -53,3 +53,25 @@ export async function deleteTransaction(id: number) {
   }
   revalidatePath("/dashboard");
 }
+
+export async function updateTransaction(
+  id: number | undefined,
+  data: FieldValues
+) {
+  console.log("data data ", data);
+  const validated = transactionSchema.safeParse(data);
+  if (!validated.success) {
+    throw new Error(`Validation failed`);
+  }
+  console.log("validated data ", validated.data);
+  const cookieStore = cookies();
+  const { error } = await createClient(cookieStore)
+    .from("transactions")
+    .update(validated.data)
+    .eq("id", id);
+  if (error) {
+    throw new Error(error + "Failed to update transaction");
+  }
+  revalidatePath("/dashboard");
+  return redirect("/dashboard");
+}

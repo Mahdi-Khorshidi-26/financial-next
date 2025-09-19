@@ -8,6 +8,7 @@ import { TransactionSummaryItemFallback } from "./transactionListFallback";
 import Button from "@/components/button";
 import { fetchTransactions } from "@/lib/actions";
 import { Loader } from "lucide-react";
+import { set } from "zod";
 
 export type TransactionsType = {
   id: number;
@@ -34,7 +35,11 @@ export default function TransactionList({
   const handleLoadMore = async () => {
     setLoading(true);
     try {
-      const nextTransactions = await fetchTransactions(range, transactions.length, 10);
+      const nextTransactions = await fetchTransactions(
+        range,
+        transactions.length,
+        10
+      );
       if (nextTransactions.length === 0) {
         setButtonHidden(true);
       }

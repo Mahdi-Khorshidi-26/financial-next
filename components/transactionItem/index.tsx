@@ -2,6 +2,7 @@ import { useFormatCurrency } from "@/hooks/useFormatCurrency";
 import { TransactionItemProps } from "./types";
 import { typesMap } from "./utils";
 import TransactionRemoveButton from "@/app/dashboard/components/transactionRemoveButton";
+import TransactionUpdateButton from "@/app/dashboard/components/transactionEditButton";
 
 export default function TransactionItem({
   type,
@@ -40,7 +41,8 @@ export default function TransactionItem({
       </div>
 
       <div className="min-w-[70px] text-right">{formattedAmount}</div>
-      <div className="min-w-[50px] flex justify-end">
+      <div className="min-w-[50px] flex justify-end ml-4 space-x-2">
+        <TransactionUpdateButton id={id}  />
         <TransactionRemoveButton id={id} onRemoved={onRemoved} />
       </div>
     </div>

@@ -4,10 +4,15 @@ import { categories, types } from "@/lib/consts";
 import { useForm, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { transactionSchema } from "@/lib/validation";
-import { addTransaction } from "@/lib/actions";
+import { addTransaction, updateTransaction } from "@/lib/actions";
 import { useState } from "react";
+import { TransactionItemProps } from "@/components/transactionItem/types";
 
-export default function TransactionForm() {
+export default function TransactionForm({
+  initialData,
+}: {
+  initialData?: any;
+}) {
   const {
     register,
     handleSubmit,
@@ -21,10 +26,15 @@ export default function TransactionForm() {
   });
   const [serverError, setServerError] = useState<string | null>(null);
   const type = watch("type");
+  const editing = Boolean(initialData);
 
   const onSubmit = async (data: FieldValues) => {
     try {
-      await addTransaction(data);
+      if (editing) {
+        await updateTransaction(initialData.id, data);
+      } else {
+        await addTransaction(data);
+      }
       reset();
     } catch (error) {
       if (error instanceof Error) {
@@ -100,7 +110,10 @@ export default function TransactionForm() {
           <input
             type="date"
             {...register("created_at")}
-            className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-150 px-3 py-2 outline-none"
+            className={`rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-150 px-3 py-2 outline-none ${
+              editing ? "cursor-not-allowed opacity-70" : ""
+            }`}
+            disabled={editing}
           />
           {errors.created_at && (
             <span className="text-xs text-red-600 dark:text-red-400 mt-1">

@@ -9,6 +9,8 @@ export const variants: Record<variantTypes, string> = {
     "rounded-md bg-white dark:bg-black hover:bg-gray-300 dark:hover:bg-gray-500 cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed",
   danger:
     "bg-red-500 text-white dark:bg-red-500 rounded-md hover:bg-red-700 dark:hover:bg-red-700 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed",
+  success:
+    "bg-green-500 text-white dark:bg-green-500 rounded-md hover:bg-green-700 dark:hover:bg-green-700 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed",
 };
 
 export const sizes: Record<sizeTypes, string> = {
