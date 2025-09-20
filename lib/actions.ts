@@ -73,3 +73,10 @@ export async function updateTransaction(
   revalidatePath("/dashboard");
   return redirect("/dashboard");
 }
+
+export async function login(prevState: unknown, formData: FormData) {
+  if ("mahdi@1234.com" == formData.get("email")) {
+    return { message: "Magic link sent! Check your email.", error: false };
+  }
+  return { message: "wrong email supplied !!! ", error: true };
+}
