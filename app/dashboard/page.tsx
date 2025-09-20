@@ -25,16 +25,16 @@ export default async function Dashboard({
       </section>
       <section className="mb-8 grid grid-cols-2 lg:grid-cols-4 gap-8">
         <ErrorBoundary fallback={<p>Error loading trend data</p>}>
-          <Trend type="income" range={selectedRange} />
+          <Trend type="Income" range={selectedRange} />
         </ErrorBoundary>
         <ErrorBoundary fallback={<p>Error loading trend data</p>}>
-          <Trend type="expense" range={selectedRange} />
+          <Trend type="Expense" range={selectedRange} />
         </ErrorBoundary>
         <ErrorBoundary fallback={<p>Error loading trend data</p>}>
-          <Trend type="saving" range={selectedRange} />
+          <Trend type="Saving" range={selectedRange} />
         </ErrorBoundary>
         <ErrorBoundary fallback={<p>Error loading trend data</p>}>
-          <Trend type="investment" range={selectedRange} />
+          <Trend type="Investment" range={selectedRange} />
         </ErrorBoundary>
       </section>
       <section className="flex justify-between items-center mb-8 sticky top-0 z-10 ">
