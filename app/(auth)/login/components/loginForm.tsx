@@ -1,7 +1,7 @@
 "use client";
 import SubmitButton from "@/components/submitButton";
 import { login } from "@/lib/actions";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 
 const initialState = {
   message: "",
@@ -9,9 +9,9 @@ const initialState = {
 };
 
 export default function LoginForm() {
-  const [state, formAction] = useFormState(login, initialState);
+  const [state, formAction] = useActionState(login, initialState);
   return (
-    <form action={formAction} className="flex flex-col space-y-6">
+    <form action={formAction} className="flex flex-col space-y-6" suppressHydrationWarning>
       <input
         type="email"
         name="email"

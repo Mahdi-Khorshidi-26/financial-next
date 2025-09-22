@@ -7,6 +7,8 @@ import Trend from "./components/trends";
 import { ErrorBoundary } from "react-error-boundary";
 import Range from "./components/range";
 import TransactionListWrapper from "./components/transactionListWrapper";
+import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Dashboard({
   searchParams,
@@ -15,6 +17,24 @@ export default async function Dashboard({
 }) {
   const { range } = await searchParams;
   const selectedRange = range || "last30days";
+
+  const supabase = createClient(cookies());
+  const isLoggedIn = supabase.auth.getUser().then(({ data }) => !!data.user);
+
+  if (!isLoggedIn) {
+    return (
+      <main className="flex flex-col items-center justify-center h-screen">
+        <h1 className="text-3xl mb-4">Please log in to access the dashboard</h1>
+        <Link
+          href="/login"
+          className={`px-4 py-2 ${variants["default"]} ${sizes["sm"]}`}
+        >
+          Go to Login
+        </Link>
+      </main>
+    );
+  }
+
   return (
     <main className="space-y-8">
       <section className="flex justify-between items-center mb-8 top-0 z-10 ">

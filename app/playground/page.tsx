@@ -22,7 +22,7 @@ export default function Playground() {
       <div className="p-8 bg-white dark:bg-gray-900 rounded-lg shadow-md">
         <Separator />
         <PlaygroundItemContainer title="Page Header Component">
-          <PageHeader />
+          <PageHeader className="my-8" />
         </PlaygroundItemContainer>
         <PlaygroundItemContainer title="Trends Component">
           <Trends type="Income" amount={1000} prevAmount={500} />

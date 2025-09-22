@@ -1,16 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import PageHeader from "@/components/pageHeader";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: {
@@ -27,10 +20,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col px-8`}
-      >
-        {children}
+      <body>
+        <div className="space-y-8">
+          <PageHeader className="my-8" />
+          <div>{children}</div>
+        </div>
+        <footer className="mt-auto text-center py-8 dark:text-zinc-400 light:text-zinc-600">
+          Copyright © 2025 by Mahdi Khorshidi
+        </footer>
       </body>
     </html>
   );

@@ -75,8 +75,20 @@ export async function updateTransaction(
 }
 
 export async function login(prevState: unknown, formData: FormData) {
-  if ("mahdi@1234.com" == formData.get("email")) {
-    return { message: "Magic link sent! Check your email.", error: false };
+  const supabase = createClient(cookies());
+  const email = formData.get("email");
+  const { error } = await supabase.auth.signInWithOtp({
+    email: email as string,
+    options: {
+      // emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/callback`,
+      shouldCreateUser: true,
+    },
+  });
+  if (error) {
+    return { message: "Error Authenticating User", error: true };
   }
-  return { message: "wrong email supplied !!! ", error: true };
+  return {
+    message: `email got sent to ${email} please check your inbox`,
+    error: false,
+  };
 }
