@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import PageHeader from "@/components/pageHeader";
 
-
-
 export const metadata: Metadata = {
   title: {
     template: "%s | Finance App",
@@ -18,9 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <div className="space-y-8">
+          <PageHeader className="my-8" />
           <div>{children}</div>
         </div>
         <footer className="mt-auto text-center py-8 dark:text-zinc-400 light:text-zinc-600">
