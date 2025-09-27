@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import PageHeader from "@/components/pageHeader";
+import SignOutButton from "@/components/signout";
 
 export const metadata: Metadata = {
   title: {
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <div className="space-y-8">
+          <SignOutButton />
           <PageHeader className="my-8" />
           <div>{children}</div>
         </div>

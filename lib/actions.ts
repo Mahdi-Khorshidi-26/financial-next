@@ -92,3 +92,12 @@ export async function login(prevState: unknown, formData: FormData) {
     error: false,
   };
 }
+
+export async function signOut() {
+  const supabase = createClient(cookies());
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    throw new Error("Failed to log out");
+  }
+  return redirect("/login");
+}

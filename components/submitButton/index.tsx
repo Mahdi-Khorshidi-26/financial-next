@@ -2,10 +2,9 @@
 import { useFormStatus } from "react-dom";
 import { Loader } from "lucide-react";
 import Button from "../button";
+import { ButtonProps } from "../button/types";
 
-export default function SubmitButton(
-  props: React.ButtonHTMLAttributes<HTMLButtonElement>
-) {
+export default function SubmitButton(props: ButtonProps) {
   const { pending } = useFormStatus();
   return (
     <Button
