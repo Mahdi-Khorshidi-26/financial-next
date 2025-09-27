@@ -1,26 +1,24 @@
-// "use client";
+"use client";
 import Link from "next/link";
-// import DarkModeToggle from "../darkModeToggle";
-// import { DarkModeToggler, useDarkMode } from "dark-mode-toggler";
-import { createClient } from "@/utils/supabase/client";
+import { DarkModeToggler, useDarkMode } from "dark-mode-toggler";
 import Button from "../button";
 import { CircleUser } from "lucide-react";
 
-export default async function PageHeader({
+export default function PageHeader({
   className,
 }: {
   className?: string;
 }) {
-  // const { theme, resolvedTheme, toggleTheme, setTheme, mounted } =
-  //   useDarkMode();
-  // const toggleDarkLight = () => {
-  //   setTheme(theme === "light" ? "dark" : "light");
-  // };
-  const supabase = createClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
+  const { theme, resolvedTheme, toggleTheme, setTheme, mounted } =
+    useDarkMode();
+  const toggleDarkLight = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+  // const supabase = createClient();
+  // const {
+  //   data: { user },
+  //   error,
+  // } = await supabase.auth.getUser();
 
   return (
     <header
@@ -34,7 +32,7 @@ export default async function PageHeader({
         Finance App
       </Link>
       <div className="flex items-center space-x-4">
-        {/* <DarkModeToggler
+        <DarkModeToggler
           theme={theme}
           resolvedTheme={resolvedTheme}
           toggleTheme={toggleDarkLight}
@@ -44,8 +42,8 @@ export default async function PageHeader({
             light: <span>☀️</span>,
             // system: null, // will fallback to default if not provided
           }}
-        /> */}
-        <div>
+        />
+        {/* <div>
           {user && (
             <Button
               variant="ghost"
@@ -56,7 +54,7 @@ export default async function PageHeader({
               <span>{user.email}</span>
             </Button>
           )}
-        </div>
+        </div> */}
       </div>
     </header>
   );

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import PageHeader from "@/components/pageHeader";
 
@@ -22,7 +21,6 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div className="space-y-8">
-          <PageHeader className="my-8" />
           <div>{children}</div>
         </div>
         <footer className="mt-auto text-center py-8 dark:text-zinc-400 light:text-zinc-600">
