@@ -9,6 +9,7 @@ import Range from "./components/range";
 import TransactionListWrapper from "./components/transactionListWrapper";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 export default async function Dashboard({
   searchParams,
@@ -19,20 +20,10 @@ export default async function Dashboard({
   const selectedRange = range || "last30days";
 
   const supabase = createClient(cookies());
-  const isLoggedIn = supabase.auth.getUser().then(({ data }) => !!data.user);
-
-  if (!isLoggedIn) {
-    return (
-      <main className="flex flex-col items-center justify-center h-screen">
-        <h1 className="text-3xl mb-4">Please log in to access the dashboard</h1>
-        <Link
-          href="/login"
-          className={`px-4 py-2 ${variants["default"]} ${sizes["sm"]}`}
-        >
-          Go to Login
-        </Link>
-      </main>
-    );
+  const { data } = await supabase.auth.getUser();
+  const user = data.user;
+  if (!user || !user.id) {
+    return redirect("/login");
   }
 
   return (
