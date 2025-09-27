@@ -1,8 +1,6 @@
 "use client";
 import Link from "next/link";
 import { DarkModeToggler, useDarkMode } from "dark-mode-toggler";
-import Button from "../button";
-import { CircleUser } from "lucide-react";
 
 export default function PageHeader({
   className,
@@ -14,11 +12,7 @@ export default function PageHeader({
   const toggleDarkLight = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
-  // const supabase = createClient();
-  // const {
-  //   data: { user },
-  //   error,
-  // } = await supabase.auth.getUser();
+
 
   return (
     <header
@@ -40,21 +34,8 @@ export default function PageHeader({
           icons={{
             dark: <span>🌙</span>,
             light: <span>☀️</span>,
-            // system: null, // will fallback to default if not provided
           }}
         />
-        {/* <div>
-          {user && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="flex items-center space-x-1"
-            >
-              <CircleUser className="mr-2" />
-              <span>{user.email}</span>
-            </Button>
-          )}
-        </div> */}
       </div>
     </header>
   );

@@ -20,7 +20,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <div className="space-y-8">
-          <SignOutButton />
           <PageHeader className="my-8" />
           <div>{children}</div>
         </div>
