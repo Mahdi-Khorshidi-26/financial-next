@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import SubmitButton from "@/components/submitButton";
 import { uploadAvatar } from "@/lib/actions";
 import { Ban, Check, Plus } from "lucide-react";
 import Image from "next/image";
-import { useFormState } from "react-dom";
+import { useFormStatus } from "react-dom";
 import Alert from "@/components/alert";
 
 const initialState = {
@@ -16,7 +16,8 @@ const initialState = {
 export default function AvatarPage() {
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [state, formAction] = useFormState(uploadAvatar, initialState);
+  const [state, formAction] = useActionState(uploadAvatar, initialState);
+  const pending = useFormStatus().pending;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -27,6 +28,10 @@ export default function AvatarPage() {
       setPreview(null);
     }
   };
+
+  if (pending) {
+    return <p className="text-gray-500">Uploading...</p>;
+  }
 
   return (
     <>
@@ -41,7 +46,7 @@ export default function AvatarPage() {
           </p>
         </Alert>
       )}
-      {!state.error && (
+      {!state.error && state.message.length > 0 && (
         <Alert
           title="Avatar uploaded successfully"
           icon={<Check className="w-6 h-6 text-green-500" />}

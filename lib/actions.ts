@@ -132,6 +132,27 @@ export async function uploadAvatar(
   if (uploadError) {
     return { error: true, message: "Failed to upload avatar" };
   }
+  // In here we delete the old ones
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+
+  if (userError) {
+    return {
+      error: true,
+      message: "Something went wrong, try again",
+    };
+  }
+
+  const avatar = userData.user.user_metadata.avatar;
+  if (avatar) {
+    const { error: deleteError } = await supabase.storage
+      .from("avatars")
+      .remove([avatar]);
+    if (deleteError) {
+      console.log("Failed to delete old avatar:", deleteError.message);
+      // Not returning error here because it's not critical
+    }
+  }
+
   const { error: updateError } = await supabase.auth.updateUser({
     data: { avatar: filePath },
   });
