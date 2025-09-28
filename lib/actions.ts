@@ -102,26 +102,15 @@ export async function signOut() {
   return redirect("/login");
 }
 
-export async function uploadAvatar(
-  prevState: { error: boolean; message: string },
-  formData: FormData
-) {
+export async function uploadAvatar(prevState: unknown, formData: FormData) {
+  const supabase = createClient(cookies());
   const file = formData.get("file") as File;
   if (!file || file.size === 0) {
     return { error: true, message: "No file selected " };
   }
-  if (file.size > 512 * 1024) {
-    return { error: true, message: "File size exceeds 512KB" };
-  }
-  const supabase = createClient(cookies());
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
-    return { error: true, message: "User not authenticated" };
-  }
+
   const fileExt = file.name.split(".").pop();
-  const fileName = `${user.id}.${fileExt}`;
+  const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
   const filePath = `${fileName}`;
   const { error: uploadError } = await supabase.storage
     .from("avatars")
@@ -132,14 +121,11 @@ export async function uploadAvatar(
   if (uploadError) {
     return { error: true, message: "Failed to upload avatar" };
   }
-  // In here we delete the old ones
+  // // In here we delete the old ones
   const { data: userData, error: userError } = await supabase.auth.getUser();
 
   if (userError) {
-    return {
-      error: true,
-      message: "Something went wrong, try again",
-    };
+    return { error: true, message: "User not authenticated or Does not Exist" };
   }
 
   const avatar = userData.user.user_metadata.avatar;

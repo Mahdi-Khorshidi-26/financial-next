@@ -36,7 +36,7 @@ export default function AvatarPage() {
   return (
     <>
       <h1 className="text-4xl font-semibold mb-8">Avatar</h1>
-      {state.error && (
+      {state?.error && (
         <Alert
           title="Error uploading avatar"
           icon={<Ban className="w-6 h-6 text-red-500" />}
@@ -46,7 +46,7 @@ export default function AvatarPage() {
           </p>
         </Alert>
       )}
-      {!state.error && state.message.length > 0 && (
+      {!state?.error && state?.message && state?.message.length > 0 && (
         <Alert
           title="Avatar uploaded successfully"
           icon={<Check className="w-6 h-6 text-green-500" />}
