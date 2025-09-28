@@ -1,3 +1,4 @@
+import Avatar from "@/components/avatar";
 import Button from "@/components/button";
 import SignOutButton from "@/components/signout";
 import { createClient } from "@/utils/supabase/server";
@@ -21,13 +22,11 @@ export default async function DashboardLayout({
         <div>
           {user && user.id && (
             <Link href="/dashboard/settings" className="mr-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="flex items-center space-x-1"
-              >
-                <CircleUser className="mr-2" />
-                <span>{user.email}</span>
+              <Button variant="ghost" size="sm">
+                <div className="flex items-center gap-2">
+                  <Avatar />
+                  <span>{user.email}</span>
+                </div>
               </Button>
             </Link>
           )}

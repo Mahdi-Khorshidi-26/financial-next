@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import PageHeader from "@/components/pageHeader";
-import SignOutButton from "@/components/signout";
 
 export const metadata: Metadata = {
   title: {

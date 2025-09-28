@@ -101,3 +101,43 @@ export async function signOut() {
   }
   return redirect("/login");
 }
+
+export async function uploadAvatar(
+  prevState: { error: boolean; message: string },
+  formData: FormData
+) {
+  const file = formData.get("file") as File;
+  if (!file || file.size === 0) {
+    return { error: true, message: "No file selected " };
+  }
+  if (file.size > 512 * 1024) {
+    return { error: true, message: "File size exceeds 512KB" };
+  }
+  const supabase = createClient(cookies());
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { error: true, message: "User not authenticated" };
+  }
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${user.id}.${fileExt}`;
+  const filePath = `${fileName}`;
+  const { error: uploadError } = await supabase.storage
+    .from("avatars")
+    .upload(filePath, file, {
+      upsert: true,
+    });
+
+  if (uploadError) {
+    return { error: true, message: "Failed to upload avatar" };
+  }
+  const { error: updateError } = await supabase.auth.updateUser({
+    data: { avatar: filePath },
+  });
+  if (updateError) {
+    return { error: true, message: "Failed to update avatar" };
+  }
+  revalidatePath("/dashboard");
+  return redirect("/dashboard");
+}
