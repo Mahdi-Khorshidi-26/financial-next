@@ -3,6 +3,7 @@ import SignOutButton from "@/components/signout";
 import { createClient } from "@/utils/supabase/server";
 import { CircleUser } from "lucide-react";
 import { cookies } from "next/headers";
+import Link from "next/link";
 
 export default async function DashboardLayout({
   children,
@@ -19,14 +20,16 @@ export default async function DashboardLayout({
         {user && user.id && <SignOutButton />}
         <div>
           {user && user.id && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="flex items-center space-x-1"
-            >
-              <CircleUser className="mr-2" />
-              <span>{user.email}</span>
-            </Button>
+            <Link href="/dashboard/settings" className="mr-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex items-center space-x-1"
+              >
+                <CircleUser className="mr-2" />
+                <span>{user.email}</span>
+              </Button>
+            </Link>
           )}
         </div>
       </div>
