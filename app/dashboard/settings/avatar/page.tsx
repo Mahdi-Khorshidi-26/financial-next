@@ -38,7 +38,6 @@ export default function AvatarPage() {
         >
           <p className="text-sm text-gray-600 dark:text-gray-400">
             {state?.message}
-            There was an error uploading your avatar. Please try again.
           </p>
         </Alert>
       )}
