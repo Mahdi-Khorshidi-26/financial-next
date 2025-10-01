@@ -11,6 +11,7 @@ import { capitalizeFirst } from "@/utils";
 export default function TransactionForm({
   initialData,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialData?: any;
 }) {
   const {

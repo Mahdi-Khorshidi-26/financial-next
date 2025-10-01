@@ -3,6 +3,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { RangeSelect } from "./rangeSelect";
 
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function Range({ user }: { user?: any }) {
   const searchParams = useSearchParams();
   const pathName = usePathname();
