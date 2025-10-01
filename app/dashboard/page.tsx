@@ -14,13 +14,14 @@ import { redirect } from "next/navigation";
 export default async function Dashboard({
   searchParams,
 }: {
-  searchParams: { range: string };
+  searchParams: Promise<{ range?: string }>;
 }) {
   const supabase = createClient(cookies());
   const { data } = await supabase.auth.getUser();
   const user = data.user;
   const { range } = await searchParams;
-  const selectedRange = range ?? user?.user_metadata?.defaultPreference ?? "last30days";
+  const selectedRange =
+    range ?? user?.user_metadata?.defaultPreference ?? "last30days";
 
   if (!user || !user.id) {
     return redirect("/login");
