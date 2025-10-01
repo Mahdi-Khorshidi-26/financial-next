@@ -2,7 +2,6 @@ import Avatar from "@/components/avatar";
 import Button from "@/components/button";
 import SignOutButton from "@/components/signout";
 import { createClient } from "@/utils/supabase/server";
-import { CircleUser } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
 
@@ -25,7 +24,7 @@ export default async function DashboardLayout({
               <Button variant="ghost" size="sm">
                 <div className="flex items-center gap-2">
                   <Avatar />
-                  <span>{user.email}</span>
+                  <span>{user.user_metadata.fullName ?? user.email}</span>
                 </div>
               </Button>
             </Link>

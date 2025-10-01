@@ -148,3 +148,26 @@ export async function uploadAvatar(prevState: unknown, formData: FormData) {
   revalidatePath("/dashboard");
   return redirect("/dashboard");
 }
+
+export async function updateUserSettings(
+  prevState: unknown,
+  formData: FormData
+) {
+  const supabase = createClient(cookies());
+  const fullName = formData.get("fullName") as string;
+  const defaultPreference = formData.get("defaultPreference") as string;
+  if (!fullName || fullName.length === 0) {
+    return { error: true, message: "Full name is required" };
+  }
+  const { error: userError } = await supabase.auth.getUser();
+  if (userError) {
+    return { error: true, message: "User not authenticated or Does not Exist" };
+  }
+  const { error: updateError } = await supabase.auth.updateUser({
+    data: { fullName, defaultPreference },
+  });
+  if (updateError) {
+    return { error: true, message: "Failed to update user settings" };
+  }
+  revalidatePath("/dashboard");
+}

@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 export default function SideNavigation() {
   const pathname = usePathname();
   return (
-    <aside className="col-span-1">
+    <aside className="col-span-4 lg:col-span-1">
       <nav>
         <ul className="space-y-2">
           <li>
