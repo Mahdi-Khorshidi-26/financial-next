@@ -21,7 +21,7 @@ export default function LoginForm() {
         focus:border-transparent"
       />
       <SubmitButton type="submit" className="w-full">
-        Sign in with email
+        Sign in / Sign up With Email
       </SubmitButton>
       {state.error && (
         <p className="text-sm text-red-500 text-center">{state.message}</p>

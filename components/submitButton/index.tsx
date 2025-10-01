@@ -11,9 +11,9 @@ export default function SubmitButton(props: ButtonProps) {
       {...props}
       className={`${props.className} flex items-center justify-center space-x-2`}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 justify-center">
         {pending && <Loader className="animate-spin w-4 h-4" />}
-        <span>{props.children}</span>
+        <span className="text-center">{props.children}</span>
       </div>
     </Button>
   );
