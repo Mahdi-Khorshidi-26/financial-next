@@ -62,7 +62,7 @@ export function SettingsForm({ defaults }: SettingsFormProps) {
         placeholder="Enter your full name"
         required
       />
-      {/* <div className="flex flex-col space-y-1">
+      <div className="flex flex-col space-y-1">
         <label htmlFor="defaultPreference">Default Preference</label>
         <RangeSelect
           defaultValue={defaults.defaultPreference || ""}
@@ -70,7 +70,7 @@ export function SettingsForm({ defaults }: SettingsFormProps) {
           name="defaultPreference"
           id="defaultView"
         />
-      </div> */}
+      </div>
 
       <SubmitButton>Update Profile</SubmitButton>
     </form>
