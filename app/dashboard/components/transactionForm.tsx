@@ -92,7 +92,6 @@ export default function TransactionForm({
           </label>
           <select
             {...register("category")}
-            disabled={type !== "Expense"}
             className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-150 px-3 py-2 outline-none"
           >
             <option value="">Select a category</option>
