@@ -1,17 +1,11 @@
-'use client"';
+"use client";
 
 import Button from "@/components/button";
-import { TransactionItemProps } from "@/components/transactionItem/types";
-import { updateTransaction } from "@/lib/actions";
 import { Edit2, Loader } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function TransactionUpdateButton({
-  id,
-}: {
-  id?: number;
-}) {
+export default function TransactionUpdateButton({ id }: { id?: number }) {
   const [loading, setLoading] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const handleClick = async () => {

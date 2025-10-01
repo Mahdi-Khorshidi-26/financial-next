@@ -8,7 +8,6 @@ import { TransactionSummaryItemFallback } from "./transactionListFallback";
 import Button from "@/components/button";
 import { fetchTransactions } from "@/lib/actions";
 import { Loader } from "lucide-react";
-import { set } from "zod";
 
 export type TransactionsType = {
   id: number;
