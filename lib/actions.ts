@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { FieldValues } from "react-hook-form";
-import { transactionSchema } from "./validation";
+import { settingsSchema, transactionSchema } from "./validation";
 
 export async function addTransaction(data: FieldValues) {
   const validated = transactionSchema.safeParse(data);
@@ -153,21 +153,45 @@ export async function updateUserSettings(
   prevState: unknown,
   formData: FormData
 ) {
-  const supabase = createClient(cookies());
   const fullName = formData.get("fullName") as string;
   const defaultPreference = formData.get("defaultPreference") as string;
+  const validated = settingsSchema.safeParse({
+    fullName,
+    defaultPreference,
+  });
+  if (!validated.success) {
+    return {
+      error: true,
+      message: "Validation failed",
+      errors: validated.error.flatten().fieldErrors,
+    };
+  }
+  const supabase = createClient(cookies());
+
   if (!fullName || fullName.length === 0) {
-    return { error: true, message: "Full name is required" };
+    return {
+      error: true,
+      message: "Full name is required",
+      errors: { fullName: ["Full name is required"] },
+    };
   }
   const { error: userError } = await supabase.auth.getUser();
   if (userError) {
-    return { error: true, message: "User not authenticated or Does not Exist" };
+    return {
+      error: true,
+      message: "User not authenticated or Does not Exist",
+      errors: {},
+    };
   }
   const { error: updateError } = await supabase.auth.updateUser({
-    data: { fullName, defaultPreference },
+    data: { fullName: validated.data.fullName, defaultPreference: validated.data.defaultPreference },
   });
   if (updateError) {
-    return { error: true, message: "Failed to update user settings" };
+    return {
+      error: true,
+      message: "Failed to update user settings",
+      errors: {},
+    };
   }
   revalidatePath("/dashboard");
 }

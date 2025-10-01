@@ -1,6 +1,19 @@
 import { z } from "zod";
 import { categories, types } from "./consts";
 
+export const settingsSchema = z.object({
+  fullName: z.string().min(2, { message: "Full name is required and must be at least 2 characters long" }),
+  defaultPreference: z
+    .enum([
+      "last24hours",
+      "last7days",
+      "last30days",
+      "last12months",
+      "lifetime",
+    ])
+    .optional(),
+});
+
 export const transactionSchema = z
   .object({
     type: z.enum(types),

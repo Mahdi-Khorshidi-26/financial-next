@@ -2,12 +2,22 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { RangeSelect } from "./rangeSelect";
+import { createClient } from "@/utils/supabase/client";
 
-export default function Range() {
+import { useEffect, useState } from "react";
+
+async function getUserMetaData() {
+  const supabase = createClient();
+  const { data } = await supabase.auth.getUser();
+  return data.user?.user_metadata;
+}
+
+export default function Range({ user }: { user?: any }) {
   const searchParams = useSearchParams();
   const pathName = usePathname();
   const { replace } = useRouter();
-  const range = searchParams.get("range") ?? "last30days";
+  const range =
+    searchParams.get("range") ?? user?.user_metadata?.defaultPreference ?? "last30days";
 
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const params = new URLSearchParams();

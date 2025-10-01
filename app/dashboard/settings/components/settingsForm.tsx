@@ -3,12 +3,23 @@ import Alert from "@/components/alert";
 import SubmitButton from "@/components/submitButton";
 import { updateUserSettings } from "@/lib/actions";
 import { Ban, Check } from "lucide-react";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { RangeSelect } from "../../components/rangeSelect";
 
-const initialState = {
+type Errors = {
+  fullName?: string[];
+  defaultPreference?: string[];
+  [key: string]: string[] | undefined;
+};
+
+const initialState: {
+  error: boolean;
+  message: string;
+  errors: Errors;
+} = {
   error: false,
   message: "",
+  errors: {},
 };
 
 type SettingsFormProps = {
@@ -21,7 +32,7 @@ type SettingsFormProps = {
 
 export function SettingsForm({ defaults }: SettingsFormProps) {
   const [state, formAction] = useActionState(updateUserSettings, initialState);
-  console.log("Defaults:", defaults);
+  const [value, setValue] = useState("");
   if (!defaults) {
     defaults = {
       fullName: "",
@@ -34,7 +45,7 @@ export function SettingsForm({ defaults }: SettingsFormProps) {
     <form className="space-y-4" action={formAction}>
       {state?.error && (
         <Alert
-          title="Error uploading avatar"
+          title="Error updating settings"
           icon={<Ban className="w-6 h-6 text-red-500" />}
         >
           <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -42,13 +53,13 @@ export function SettingsForm({ defaults }: SettingsFormProps) {
           </p>
         </Alert>
       )}
-      {!state?.error && state?.message && state?.message.length > 0 && (
+      {!state?.error && state?.message && state?.message?.length > 0 && Object.keys(state?.errors || {}).length === 0 && (
         <Alert
-          title="Avatar uploaded successfully"
+          title="Settings updated successfully"
           icon={<Check className="w-6 h-6 text-green-500" />}
         >
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            Your avatar has been uploaded successfully.
+            Your settings has been updated successfully.
           </p>
         </Alert>
       )}
@@ -62,14 +73,26 @@ export function SettingsForm({ defaults }: SettingsFormProps) {
         placeholder="Enter your full name"
         required
       />
+      {state?.errors?.fullName && (
+        <p className="text-sm text-red-500">{state?.errors?.fullName[0]}</p>
+      )}
       <div className="flex flex-col space-y-1">
         <label htmlFor="defaultPreference">Default Preference</label>
         <RangeSelect
-          defaultValue={defaults.defaultPreference || ""}
-          onChange={() => {}}
+          defaultValue={value || defaults.defaultPreference || ""}
+          value={value}
+          onChange={(e) => {
+            e.preventDefault();
+            setValue(e.target.value);
+          }}
           name="defaultPreference"
           id="defaultView"
         />
+        {state?.errors?.defaultPreference && (
+          <p className="text-sm text-red-500">
+            {state?.errors?.defaultPreference[0]}
+          </p>
+        )}
       </div>
 
       <SubmitButton>Update Profile</SubmitButton>

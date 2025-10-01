@@ -16,12 +16,12 @@ export default async function Dashboard({
 }: {
   searchParams: { range: string };
 }) {
-  const { range } = await searchParams;
-  const selectedRange = range || "last30days";
-
   const supabase = createClient(cookies());
   const { data } = await supabase.auth.getUser();
   const user = data.user;
+  const { range } = await searchParams;
+  const selectedRange = range ?? user?.user_metadata?.defaultPreference ?? "last30days";
+
   if (!user || !user.id) {
     return redirect("/login");
   }
@@ -31,7 +31,7 @@ export default async function Dashboard({
       <section className="flex justify-between items-center mb-8 top-0 z-10 ">
         <h2 className="text-2xl">Summary</h2>
         <ErrorBoundary fallback={<p>Error loading range</p>}>
-          <Range />
+          <Range user={user} />
         </ErrorBoundary>
       </section>
       <section className="mb-8 grid grid-cols-2 lg:grid-cols-4 gap-8">
