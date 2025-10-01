@@ -1,16 +1,7 @@
 "use client";
-
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { RangeSelect } from "./rangeSelect";
-import { createClient } from "@/utils/supabase/client";
 
-import { useEffect, useState } from "react";
-
-async function getUserMetaData() {
-  const supabase = createClient();
-  const { data } = await supabase.auth.getUser();
-  return data.user?.user_metadata;
-}
 
 export default function Range({ user }: { user?: any }) {
   const searchParams = useSearchParams();
