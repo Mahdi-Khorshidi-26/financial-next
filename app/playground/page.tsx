@@ -15,6 +15,30 @@ export const metadata: Metadata = {
   description: "Components playground",
 };
 
+function PlaygroundItemContainer({
+  title,
+  titleClassName,
+  childrenWrapperClassName,
+  containerClassName,
+  children,
+}: {
+  children: React.ReactNode;
+  title: string;
+  titleClassName?: string;
+  childrenWrapperClassName?: string;
+  containerClassName?: string;
+}) {
+  return (
+    <div className={`my-8 ${containerClassName}`}>
+      <h2 className={`mb-4 text-5xl font-mono ${titleClassName}`}>{title}</h2>
+      <Separator />
+      <div className={`flex space-x-8 ${childrenWrapperClassName}`}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export default function Playground() {
   return (
     <main className="space-y-8">
@@ -142,29 +166,5 @@ export default function Playground() {
         </PlaygroundItemContainer>
       </div>
     </main>
-  );
-}
-
-export function PlaygroundItemContainer({
-  title,
-  titleClassName,
-  childrenWrapperClassName,
-  containerClassName,
-  children,
-}: {
-  children: React.ReactNode;
-  title: string;
-  titleClassName?: string;
-  childrenWrapperClassName?: string;
-  containerClassName?: string;
-}) {
-  return (
-    <div className={`my-8 ${containerClassName}`}>
-      <h2 className={`mb-4 text-5xl font-mono ${titleClassName}`}>{title}</h2>
-      <Separator />
-      <div className={`flex space-x-8 ${childrenWrapperClassName}`}>
-        {children}
-      </div>
-    </div>
   );
 }
