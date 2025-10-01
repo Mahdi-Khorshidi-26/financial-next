@@ -3,7 +3,15 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { RangeSelect } from "./rangeSelect";
 
 
-export default function Range({ user }: { user?: any }) {
+interface UserMetadata {
+  defaultPreference?: string;
+}
+
+interface User {
+  user_metadata?: UserMetadata;
+}
+
+export default function Range({ user }: { user?: User }) {
   const searchParams = useSearchParams();
   const pathName = usePathname();
   const { replace } = useRouter();

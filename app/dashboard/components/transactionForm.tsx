@@ -8,10 +8,19 @@ import { addTransaction, updateTransaction } from "@/lib/actions";
 import { useState } from "react";
 import { capitalizeFirst } from "@/utils";
 
+type TransactionFormData = {
+  id?: string;
+  type?: string;
+  category?: string;
+  amount?: number | string;
+  description?: string;
+  created_at?: string;
+};
+
 export default function TransactionForm({
   initialData,
 }: {
-  initialData?: any;
+  initialData?: TransactionFormData;
 }) {
   const {
     register,
