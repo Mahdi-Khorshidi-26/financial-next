@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body className="px-5 sm:px-12 md:px-6">
         <div className="space-y-8">
           <PageHeader className="my-8" />
           <div>{children}</div>
