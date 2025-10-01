@@ -146,7 +146,11 @@ export async function uploadAvatar(prevState: unknown, formData: FormData) {
     return { error: true, message: "Failed to update avatar" };
   }
   revalidatePath("/dashboard");
-  return redirect("/dashboard");
+  return {
+    error: false,
+    message: "Settings updated successfully",
+    errors: {},
+  };
 }
 
 export async function updateUserSettings(
@@ -184,7 +188,10 @@ export async function updateUserSettings(
     };
   }
   const { error: updateError } = await supabase.auth.updateUser({
-    data: { fullName: validated.data.fullName, defaultPreference: validated.data.defaultPreference },
+    data: {
+      fullName: validated.data.fullName,
+      defaultPreference: validated.data.defaultPreference,
+    },
   });
   if (updateError) {
     return {
@@ -194,4 +201,9 @@ export async function updateUserSettings(
     };
   }
   revalidatePath("/dashboard");
+  return {
+    error: false,
+    message: "Settings updated successfully",
+    errors: {},
+  };
 }
